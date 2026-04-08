@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BookBrief AI</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <div class="header">
+            <h2>📚 BookBrief AI</h2>
+            <p>Enter a book title and author</p>
+        </div>
+
+        <div id="messages" class="messages"></div>
+
+        <div class="input-area">
+
+            <input id="userInput" placeholder="Example: Atomic Habits by James Clear">
+
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+
+            <button class="clear-btn" onclick="clearInput()">Clear</button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function sendMessage() {
+
+            const input = document.getElementById("userInput").value;
+
+            if (!input) return;
+
+            const res = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: input })
+            });
+
+            const data = await res.json();
+
+            const messages = document.getElementById("messages");
+
+            messages.innerHTML += `
+<div class="user">
+<div class="bubble">${input}</div>
+</div>
+`;
+
+            messages.innerHTML += `
+<div class="bot">
+<div class="bubble">${data.reply}</div>
+</div>
+`;
+
+            document.getElementById("userInput").value = "";
+
+            messages.scrollTop = messages.scrollHeight;
+
+        }
+
+        function clearInput() {
+            document.getElementById("userInput").value = "";
+        }
+
+    </script>
+
+</body>
+
+</html>

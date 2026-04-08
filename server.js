@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+
 dotenv.config();
 
 const app = express();
@@ -43,6 +44,6 @@ app.post("/chat", async (req, res) => {
 
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
     console.log("Server running on port 3000");
 });
